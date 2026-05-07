@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Datenbank (lokal auf NAS)
+  db:
+    image: postgres:16-alpine
+    container_name: finanzplan-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: finanzplan
+      POSTGRES_USER: finanzplan
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - finanzplan-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U finanzplan"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Next.js App
+  app:
+    image: node:20-alpine
+    container_name: finanzplan-app
+    restart: unless-stopped
+    working_dir: /app
+    command: sh -c "npm install && npx prisma generate && npx prisma db push && npm run build && npm start"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://finanzplan:${DB_PASSWORD}@db:5432/finanzplan
+      DIRECT_URL: postgresql://finanzplan:${DB_PASSWORD}@db:5432/finanzplan
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - finanzplan-net
+
+networks:
+  finanzplan-net:
+    driver: bridge

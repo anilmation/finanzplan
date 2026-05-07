@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-sans: 'DM Sans', system-ui, sans-serif;
+
+    --background: 46 40% 97%;
+    --foreground: 220 15% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 15%;
+    --primary: 220 70% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 46 30% 92%;
+    --secondary-foreground: 220 15% 25%;
+    --muted: 46 20% 94%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 142 50% 38%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 220 70% 35%;
+
+    /* Custom semantic colors */
+    --income: 142 50% 38%;
+    --income-light: 142 50% 95%;
+    --expense: 220 70% 40%;
+    --expense-light: 220 70% 95%;
+    --savings: 38 80% 48%;
+    --savings-light: 38 80% 95%;
+    --negative: 0 70% 50%;
+    --negative-light: 0 70% 95%;
+
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 46 20% 92%;
+    --card: 220 18% 14%;
+    --card-foreground: 46 20% 92%;
+    --popover: 220 18% 14%;
+    --popover-foreground: 46 20% 92%;
+    --primary: 220 70% 65%;
+    --primary-foreground: 220 20% 10%;
+    --secondary: 220 15% 20%;
+    --secondary-foreground: 46 20% 85%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 142 45% 52%;
+    --accent-foreground: 220 20% 10%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 220 70% 65%;
+
+    --income: 142 45% 52%;
+    --income-light: 142 45% 12%;
+    --expense: 220 60% 62%;
+    --expense-light: 220 60% 12%;
+    --savings: 38 75% 58%;
+    --savings-light: 38 75% 12%;
+    --negative: 0 65% 58%;
+    --negative-light: 0 65% 12%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Quick entry input — the "type and Enter" field */
+.quick-entry-input {
+  @apply w-full bg-transparent border-0 border-b-2 border-border focus:border-primary outline-none px-0 py-2 text-base transition-colors;
+  font-family: var(--font-sans);
+}
+
+/* Amount input styling */
+.amount-input {
+  @apply font-mono tabular-nums;
+}
+
+/* Smooth page transitions */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+/* Category color dot */
+.category-dot {
+  @apply inline-block w-2.5 h-2.5 rounded-full flex-shrink-0;
+}
+
+/* Balance indicator bar */
+.balance-bar {
+  @apply h-2 rounded-full transition-all duration-500;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-border rounded-full;
+}
+
+/* Type badges */
+.badge-fixed {
+  @apply text-xs px-2 py-0.5 rounded-full font-medium;
+  background: hsl(var(--expense-light));
+  color: hsl(var(--expense));
+}
+.badge-estimate {
+  @apply text-xs px-2 py-0.5 rounded-full font-medium;
+  background: hsl(var(--savings-light));
+  color: hsl(var(--savings));
+}
+.badge-savings {
+  @apply text-xs px-2 py-0.5 rounded-full font-medium;
+  background: hsl(var(--income-light));
+  color: hsl(var(--income));
+}
+
+/* Comparison bar in Realitaet mode */
+.comparison-over { @apply text-red-500 dark:text-red-400; }
+.comparison-under { @apply text-green-600 dark:text-green-400; }
