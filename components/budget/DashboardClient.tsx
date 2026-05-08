@@ -139,7 +139,7 @@ export function DashboardClient({
     setIncomes((prev) => prev.filter((i) => i.id !== id))
   }, [])
 
-  async function handleCreateYear(year: number, copyFromId?: string) {
+  async function handleCreateYear(year: number, copyFromId?: string, useTemplate?: boolean) {
     const supabase = createClient()
     const { data: { session } } = await supabase.auth.getSession()
     const resp = await fetch('/api/budget/years', {
@@ -148,7 +148,7 @@ export function DashboardClient({
         'Content-Type': 'application/json',
         ...(session ? { Authorization: `Bearer ${session.access_token}` } : {}),
       },
-      body: JSON.stringify({ year, copyFromId }),
+      body: JSON.stringify({ year, copyFromId, useTemplate }),
     })
     if (resp.ok) {
       const data = await resp.json()
@@ -200,7 +200,7 @@ export function DashboardClient({
       {showNewYear && (
           <NewYearModal
             existingYears={budgetYears}
-            onConfirm={handleCreateYear}
+            onConfirm={(year, copyFromId, useTemplate) => handleCreateYear(year, copyFromId, useTemplate)}
             onClose={() => setShowNewYear(false)}
           />
         )}
@@ -342,7 +342,7 @@ export function DashboardClient({
       {showNewYear && (
         <NewYearModal
           existingYears={budgetYears}
-          onConfirm={handleCreateYear}
+          onConfirm={(year, copyFromId, useTemplate) => handleCreateYear(year, copyFromId, useTemplate)}
           onClose={() => setShowNewYear(false)}
         />
       )}

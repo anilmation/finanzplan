@@ -214,8 +214,16 @@ const THEME_VARS: Record<string, Record<string, string>> = {
 
 export function SettingsModal({ onClose }: SettingsModalProps) {
   const [activeTab, setActiveTab] = useState<'theme' | 'font' | 'security' | 'account'>('theme')
-  const [selectedTheme, setSelectedTheme] = useState(() => localStorage.getItem('fp-theme') ?? 'default')
-  const [selectedFont, setSelectedFont] = useState(() => localStorage.getItem('fp-font') ?? 'dm')
+  const [selectedTheme, setSelectedTheme] = useState('default')
+  const [selectedFont, setSelectedFont] = useState('dm')
+
+  // Load from localStorage after mount
+  useState(() => {
+    if (typeof window !== 'undefined') {
+      setSelectedTheme(localStorage.getItem('fp-theme') ?? 'default')
+      setSelectedFont(localStorage.getItem('fp-font') ?? 'dm')
+    }
+  })
 
   function applyTheme(themeId: string) {
     const vars = THEME_VARS[themeId]

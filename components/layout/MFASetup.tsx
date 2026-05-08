@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Shield, ShieldCheck, QrCode, Key, X, Check, AlertTriangle } from 'lucide-react'
 
@@ -23,7 +23,8 @@ export function MFASetup() {
     }
   }
 
-  useState(() => { checkMFA() })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { checkMFA() }, [])
 
   async function startEnroll() {
     setLoading(true); setError('')
