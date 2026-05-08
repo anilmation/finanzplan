@@ -348,6 +348,30 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
               ))}
             </div>
           )}
+
+          {activeTab === 'security' && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium mb-1">Zwei-Faktor-Authentifizierung</h3>
+                <p className="text-xs text-muted-foreground mb-3">
+                  Schütze dein Konto mit Google Authenticator oder einer anderen TOTP-App.
+                </p>
+                <MFASetup />
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'account' && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium mb-1">Konto & Sessions</h3>
+                <p className="text-xs text-muted-foreground mb-3">
+                  Session-Verwaltung und Konto löschen.
+                </p>
+                <AccountSettings />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="px-6 py-4 border-t border-border flex-shrink-0">

@@ -79,7 +79,9 @@ export function MFASetup() {
     }
   }
 
-  if (hasMFA === null) return null
+  if (hasMFA === null) return (
+    <div className="p-4 text-sm text-muted-foreground">Laden...</div>
+  )
 
   return (
     <div className="space-y-3">
